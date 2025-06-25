@@ -98,7 +98,7 @@ WORKDIR /verilator
 RUN git checkout $VERILATOR_VERSION
 RUN autoconf
 RUN ./configure --prefix $PREFIX
-RUN make PREFIX=$PREFIX -j$(nproc)
+RUN make PREFIX=$PREFIX -j1
 RUN make PREFIX=$PREFIX install
 WORKDIR /
 RUN rm -Rf /verilator
