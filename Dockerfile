@@ -92,16 +92,17 @@ ENV PREFIX=/opt
 ARG DEPS_VERILATOR="perl make autoconf g++ flex bison ccache libgoogle-perftools-dev numactl perl-doc libfl2 libfl-dev zlib1g zlib1g-dev"
 RUN apt-get install -y --no-install-recommends $DEPS_VERILATOR
 
-ARG VERILATOR_VERSION="v5.022"
-RUN git clone https://github.com/verilator/verilator verilator && \
-    cd verilator && \
-    git checkout $VERILATOR_VERSION && \
-    autoconf && \
-    ./configure --prefix $PREFIX && \
-    make PREFIX=$PREFIX -j$(nproc) && \
-    make PREFIX=$PREFIX install && \
-    cd ../.. && \
-    rm -Rf verilator
+
+ARG VERILATOR_VERSION="v5.024"
+RUN git clone https://github.com/verilator/verilator verilator
+WORKDIR /verilator
+RUN git checkout $VERILATOR_VERSION
+RUN autoconf
+RUN ./configure --prefix $PREFIX
+RUN make PREFIX=$PREFIX -j1
+RUN make PREFIX=$PREFIX install
+WORKDIR /
+RUN rm -Rf /verilator
 
 FROM base AS build-spinal
 
