@@ -89,9 +89,8 @@ RUN git clone https://github.com/ghdl/ghdl-yosys-plugin.git ghdl-yosys-plugin &&
 FROM base AS build-verilator
 
 ENV PREFIX=/opt
-ARG DEPS_VERILATOR="perl make autoconf g++ flex bison ccache libgoogle-perftools-dev numactl perl-doc libfl2 libfl-dev zlib1g zlib1g-dev"
+ARG DEPS_VERILATOR="perl make autoconf g++ flex bison ccache libgoogle-perftools-dev numactl perl-doc libfl2 libfl-dev zlib1g zlib1g-dev help2man"
 RUN apt-get install -y --no-install-recommends $DEPS_VERILATOR
-
 
 ARG VERILATOR_VERSION="v5.024"
 RUN git clone https://github.com/verilator/verilator verilator
@@ -99,7 +98,7 @@ WORKDIR /verilator
 RUN git checkout $VERILATOR_VERSION
 RUN autoconf
 RUN ./configure --prefix $PREFIX
-RUN make PREFIX=$PREFIX -j1
+RUN make PREFIX=$PREFIX -j$(nproc)
 RUN make PREFIX=$PREFIX install
 WORKDIR /
 RUN rm -Rf /verilator
