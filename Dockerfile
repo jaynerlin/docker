@@ -92,8 +92,8 @@ ENV PREFIX=/opt
 ARG DEPS_VERILATOR="perl make autoconf g++ flex bison ccache libgoogle-perftools-dev numactl perl-doc libfl2 libfl-dev zlib1g zlib1g-dev help2man"
 RUN apt-get install -y --no-install-recommends $DEPS_VERILATOR
 
-ARG VERILATOR_VERSION="v5.036"
-RUN git clone https://github.com/verilator/verilator verilator && \
+ARG VERILATOR_VERSION="without#5016"
+RUN git clone https://github.com/jaynerlin/verilator.git verilator && \
     cd verilator && \
     git checkout $VERILATOR_VERSION && \
     autoconf && \
