@@ -1,12 +1,13 @@
 name: Build and Push Docker Image
 
 on:
-  push:
-    branches:
-      - master
-    tags:
-      - '*'
-    pull_request:
+  workflow_dispatch:
+    inputs:
+      verilator_version:
+        description: 'Verilator version to build (e.g., v5.024, v5.036)'
+        required: true
+        default: 'v5.024'
+        type: string
 
 env:
   REGISTRY: ghcr.io
@@ -44,3 +45,5 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           labels: ${{ steps.meta.outputs.labels }}
           tags: ${{ steps.meta.outputs.tags }}
+          build-args: |
+            VERILATOR_VERSION=${{ github.event.inputs.verilator_version }}
