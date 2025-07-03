@@ -93,7 +93,7 @@ ARG DEPS_VERILATOR="perl make autoconf g++ flex bison ccache libgoogle-perftools
 RUN apt-get install -y --no-install-recommends $DEPS_VERILATOR
 
 ARG VERILATOR_VERSION
-RUN git clone https://github.com/verilator/verilator verilator && \
+RUN git clone https://github.com/jaynerlin/verilator verilator && \
     cd verilator && \
     git checkout $VERILATOR_VERSION && \
     autoconf && \
